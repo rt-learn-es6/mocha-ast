@@ -1,0 +1,31 @@
+{
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["prettier", "chai-friendly", "eslint-plugin-import"],
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "mocha": true,
+  },
+  "rules": {
+    "semi": [2, "never"],
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": 0,
+    "no-unused-expressions": 0,
+    "chai-friendly/no-unused-expressions": 2,
+    "object-curly-newline": "off",
+    "prettier/prettier": "error",
+    "operator-linebreak": [
+      "error",
+      "after",
+      {
+        "overrides": {
+          "?": "before",
+          ":": "before"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": "babel-plugin-root-import"
+  }
+}
