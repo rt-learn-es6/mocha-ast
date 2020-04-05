@@ -1,22 +1,20 @@
 import { expect } from 'chai'
 import { describe, it } from 'mocha'
 
+import { readJSONFixture } from '~/src/utils/jsonUtils'
+
 const _getCallerFile = () => {
   const originalFunc = Error.prepareStackTrace
 
   let callerfile
-  try {
-    const err = new Error()
-    Error.prepareStackTrace = (_err, stack) => stack
-    const currentfile = err.stack.shift().getFileName()
+  const err = new Error()
+  Error.prepareStackTrace = (_err, stack) => stack
+  const currentfile = err.stack.shift().getFileName()
 
-    while (err.stack.length) {
-      callerfile = err.stack.shift().getFileName()
+  while (err.stack.length) {
+    callerfile = err.stack.shift().getFileName()
 
-      if (currentfile !== callerfile) break
-    }
-  } catch (e) {
-    console.log(e)
+    if (currentfile !== callerfile) break
   }
 
   Error.prepareStackTrace = originalFunc
@@ -25,19 +23,26 @@ const _getCallerFile = () => {
 }
 
 export const test = (name, body) => {
-  debugger
+  // describe('yo', () => {
+  //   it('go', () => {
+  //     expect(1).to.eq(1)
+  //   })
+  // })
 
-  describe('yo', () => {
-    it('go', () => {
-      expect(1).to.eq(1)
-    })
-
-  })
-
-  console.log('Running test!')
   console.log(name)
   console.log(body)
-  console.log(_getCallerFile())
+  const specFile = _getCallerFile()
+
+  const specConfigPath = specFile.replace(
+    /(test\/.*?)(\w+\.spec)\.js/,
+    '$1ast/$2.json'
+  )
+
+  const specConfig = readJSONFixture(specConfigPath)
+
+  console.log(specConfig)
+
+  console.log(specFile)
 }
 
 export const spec = (name, body) => {
