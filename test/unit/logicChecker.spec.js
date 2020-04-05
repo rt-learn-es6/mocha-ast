@@ -1,10 +1,17 @@
-import { expect } from 'chai'
-import { describe, it } from 'mocha'
+import { test, spec, execute, result } from '~/src/lib/mocha-ast'
 
-import { and } from '~/src/examples/logicChecker'
+import { and, or } from '~/src/examples/logicChecker'
 
-describe('logicChecker', () => {
-  it('returns true, given: true and false', () => {
-    expect(and(true, false)).to.eq(false)
+test('logicChecker', () => {
+  spec('Logical AND', () => {
+    execute((left, right) => {
+      result(and(left, right))
+    })
+  })
+
+  spec('Logical OR', () => {
+    execute((left, right) => {
+      result(or(left, right))
+    })
   })
 })

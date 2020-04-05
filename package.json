@@ -5,7 +5,11 @@
   "repository": "git@github.com:rt-learn-es6/mocha-ast.git",
   "author": "Royce Remulla <royce.com@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
+    "sinon": "^9.0.1"
+  },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
@@ -13,19 +17,17 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
+    "babel-eslint": "^10.1.0",
     "babel-plugin-root-import": "^6.5.0",
-    "chai": "^4.2.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.0.0",
-    "eslint-import-resolver-babel-root-import": "^0.0.2",
+    "eslint-import-resolver-babel-plugin-root-import": "^1.1.1",
     "eslint-plugin-chai-friendly": "^0.5.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.0",
-    "mocha": "^7.1.1",
     "npm-watch": "^0.6.0",
-    "prettier": "^2.0.2",
-    "sinon": "^9.0.1"
+    "prettier": "^2.0.2"
   },
   "watch": {
     "test": "{test,src}/**/*.{js,json}"
@@ -34,6 +36,8 @@
     "start": "babel-node src/index.js",
     "babel-version": "babel --version",
     "test": "mocha --require @babel/register --recursive test/unit",
+    "testDebug": "mocha --require @babel/register --inspect --debug-brk --recursive test/unit",
+    "testDebug2": "mocha --require @babel/register debug --recursive test/unit",
     "watch": "npm-watch"
   }
 }

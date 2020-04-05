@@ -1,0 +1,26 @@
+{
+  "specs": {
+    "Logical AND": {
+      "variables": {
+        "left": [false, true],
+        "right": [false, true]
+      },
+      "converters": [ "BoolConverter", "BoolConverter"],
+      "rules": {
+        "true": "true[0]&true[1]"
+      },
+      "pair": "false"
+    },
+    "Logical OR": {
+      "variables": {
+        "left": [false, true],
+        "right": [false, true]
+      },
+      "converters": [ "BoolConverter", "BoolConverter"],
+      "rules": {
+        "true": "true[0]|true[1]"
+      },
+      "pair": "false"
+    }
+  }
+}
