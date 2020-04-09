@@ -1,7 +1,11 @@
-import { expect } from 'chai'
-import { describe, it } from 'mocha'
+// import { expect } from 'chai'
+// import { describe, it } from 'mocha'
+
+import { DynamicClass } from './dynamicClass'
 
 import { readJSONFixture } from '~/src/utils/jsonUtils'
+import { generateData } from './parameterGenerator'
+import { Rule } from './rules/rule'
 
 const _getCallerFile = () => {
   const originalFunc = Error.prepareStackTrace
@@ -22,15 +26,18 @@ const _getCallerFile = () => {
   return callerfile
 }
 
-export const test = (name, body) => {
+let specsConfig
+let actual
+
+export const ast = (name, specDsl) => {
   // describe('yo', () => {
   //   it('go', () => {
   //     expect(1).to.eq(1)
   //   })
   // })
 
-  console.log(name)
-  console.log(body)
+  // console.log(name)
+  // console.log(body)
   const specFile = _getCallerFile()
 
   const specConfigPath = specFile.replace(
@@ -38,21 +45,75 @@ export const test = (name, body) => {
     '$1ast/$2.json'
   )
 
-  const specConfig = readJSONFixture(specConfigPath)
+  specsConfig = readJSONFixture(specConfigPath)
 
-  console.log(specConfig)
-
-  console.log(specFile)
+  specDsl()
 }
 
-export const spec = (name, body) => {
+/**
+ * DOT
+ * - spec the DSL function name
+ * - specConfig the JSON object from the JSON file
+ * - specObject the spec config transformed to a more usable format.
+ *
+ * @param  {[type]} id   [description]
+ * @param  {[type]} body [description]
+ * @return {[type]}      [description]
+ */
+export const spec = (id, executeDsl) => {
   console.log('Inside spec')
+  console.log(id)
+
+  const specConfig = specsConfig.specs[id]
+
+  const specObj = {
+    description: id,
+    variables: specConfig.variables,
+    rule: new Rule(specConfig.rules),
+  }
+
+  if ('pair' in specConfig) {
+    specObj.pair = {}
+    specObj.pairReversed = {}
+
+    const pairConfig = specConfig.pair
+    const key = Object.keys(pairConfig)[0].toString()
+    const value = pairConfig[key].toString()
+    specObj.pair[key] = value.toString()
+    specObj.pairReversed[value] = key
+  }
+
+  if (specConfig.converters == null) {
+    const stringConverter = new DynamicClass('StringConverter')
+    specObj.converters = specConfig.variables.map(() => stringConverter)
+  } else {
+    specObj.converters = specConfig.converters.map(
+      (converter) => new DynamicClass(converter)
+    )
+  }
+
+  const fixtures = generateData(specObj)
+
+  debugger
+
+  fixtures.forEach((fixture) => {
+    const { scenario } = fixture
+
+    // invokes the client dsl
+    executeDsl(...Object.values(scenario))
+  })
 }
 
-export const execute = (name, body) => {
+export const execute = (executeBody = () => {}) => {
   console.log('execute')
+
+  debugger
+
+  executeBody()
 }
 
-export const result = (name, body) => {
-  console.log('Result')
+export const result = (execResult) => {
+  debugger
+
+  actual = execResult
 }
