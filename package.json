@@ -36,6 +36,8 @@
     "start": "babel-node src/index.js",
     "babel-version": "babel --version",
     "test": "mocha --require @babel/register --recursive test/unit",
+    "test1": "mocha --require @babel/register --recursive test/unit/examples/logicChecker.spec.js",
+    "test2": "mocha --require @babel/register --recursive test/unit/examples/recruiter.spec.js",
     "testDebug": "mocha --require @babel/register --inspect --debug-brk --recursive test/unit",
     "testDebug2": "mocha --require @babel/register debug --recursive test/unit",
     "watch": "npm-watch"
