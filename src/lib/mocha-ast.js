@@ -1,5 +1,5 @@
-// import { expect } from 'chai'
-// import { describe, it } from 'mocha'
+import { expect } from 'chai'
+import { it } from 'mocha'
 
 import { DynamicClass } from './dynamicClass'
 
@@ -26,8 +26,10 @@ const _getCallerFile = () => {
   return callerfile
 }
 
+let sutModuleOrClass
 let specsConfig
-let actual
+let currentScenario
+const actuals = []
 
 export const ast = (name, specDsl) => {
   // describe('yo', () => {
@@ -44,6 +46,8 @@ export const ast = (name, specDsl) => {
     /(test\/.*?)(\w+\.spec)\.js/,
     '$1ast/$2.json'
   )
+
+  sutModuleOrClass = name
 
   specsConfig = readJSONFixture(specConfigPath)
 
@@ -94,26 +98,32 @@ export const spec = (id, executeDsl) => {
 
   const fixtures = generateData(specObj)
 
-  debugger
+  describe(`${sutModuleOrClass}: ${specObj.description}`, () => {
+    fixtures.forEach((fixture, index) => {
+      const { scenario } = fixture
 
-  fixtures.forEach((fixture) => {
-    const { scenario } = fixture
+      currentScenario = Object.values(scenario)
+      executeDsl()
 
-    // invokes the client dsl
-    executeDsl(...Object.values(scenario))
+      let specParams = ''
+      Object.keys(scenario).forEach((key) => {
+        if (specParams !== '') {
+          specParams += ', '
+        }
+        specParams += `${key}: ${scenario[key]}`
+      })
+
+      it(`[${fixture.expectedOutcome}]=[${specParams}]`, () => {
+        expect(actuals[index]).to.eq(fixture.expectedOutcome)
+      })
+    })
   })
 }
 
 export const execute = (executeBody = () => {}) => {
-  console.log('execute')
-
-  debugger
-
-  executeBody()
+  executeBody(...currentScenario)
 }
 
 export const result = (execResult) => {
-  debugger
-
-  actual = execResult
+  actuals.push(execResult.toString())
 }
