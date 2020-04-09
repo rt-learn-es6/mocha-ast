@@ -29,17 +29,13 @@ const _getCallerFile = () => {
 let sutModuleOrClass
 let specsConfig
 let currentScenario
+
+// Due to async nature of node.js, we will store results in order and do
+// assertion in the same order. This happens automatically without relying on
+// async await.
 const actuals = []
 
 export const ast = (name, specDsl) => {
-  // describe('yo', () => {
-  //   it('go', () => {
-  //     expect(1).to.eq(1)
-  //   })
-  // })
-
-  // console.log(name)
-  // console.log(body)
   const specFile = _getCallerFile()
 
   const specConfigPath = specFile.replace(
@@ -48,9 +44,7 @@ export const ast = (name, specDsl) => {
   )
 
   sutModuleOrClass = name
-
   specsConfig = readJSONFixture(specConfigPath)
-
   specDsl()
 }
 
@@ -65,9 +59,6 @@ export const ast = (name, specDsl) => {
  * @return {[type]}      [description]
  */
 export const spec = (id, executeDsl) => {
-  console.log('Inside spec')
-  console.log(id)
-
   const specConfig = specsConfig.specs[id]
 
   const specObj = {
@@ -99,7 +90,7 @@ export const spec = (id, executeDsl) => {
   const fixtures = generateData(specObj)
 
   describe(`${sutModuleOrClass}: ${specObj.description}`, () => {
-    fixtures.forEach((fixture, index) => {
+    fixtures.forEach((fixture) => {
       const { scenario } = fixture
 
       currentScenario = Object.values(scenario)
@@ -114,7 +105,7 @@ export const spec = (id, executeDsl) => {
       })
 
       it(`[${fixture.expectedOutcome}]=[${specParams}]`, () => {
-        expect(actuals[index]).to.eq(fixture.expectedOutcome)
+        expect(actuals.shift()).to.eq(fixture.expectedOutcome)
       })
     })
   })

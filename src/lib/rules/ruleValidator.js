@@ -7,7 +7,7 @@ const opposite = (outcome = '', spec = null) => {
     return spec.pair[outcome]
   }
 
-  return spec.pairReversed()[outcome]
+  return spec.pairReversed[outcome]
 }
 
 const validateMulti = (spec = null, ruleResult = []) => {
@@ -43,7 +43,7 @@ export const validate = (scenario = [], fixture = {}) => {
   const { spec } = fixture
   const { rule } = spec
 
-  const singleResult = rule.size === 1
+  const singleResult = rule.getSize() === 1
   if (singleResult) {
     const nextResult = ruleResult[0]
     const outcome = rule.getOutcomes()[0]

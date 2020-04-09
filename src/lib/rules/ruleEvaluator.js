@@ -77,7 +77,7 @@ export class RuleEvaluator {
       return true
     }
 
-    if (this.stackRpn.size === 1) {
+    if (this.stackRpn.length === 1) {
       return this.evaluateOneRpn(scenario)
     }
 
@@ -99,7 +99,10 @@ export class RuleEvaluator {
       const valueStr = value.toString().trim()
       if (subscript > -1) {
         const converter = this.converters[subscript]
-        value = converter.convert(valueStr[/^.+(?=\[)/])
+        // value = converter.convert(valueStr[/^.+(?=\[)/])
+        value = converter.convert(
+          valueStr.substring(0, valueStr.lastIndexOf('['))
+        )
       } else if (
         ruleTokenConvert == null ||
         ruleTokenConvert[valueStr] == null
@@ -167,7 +170,9 @@ export class RuleEvaluator {
       }
     }
 
-    if (this.stackAnswer.size > 1) throw new RuleError('Some operator is missing')
+    if (this.stackAnswer.length > 1) {
+      throw new RuleError('Some operator is missing')
+    }
 
     return this.stackAnswer.pop().substring(1)
   }
@@ -187,6 +192,9 @@ export class RuleEvaluator {
     const rightArr = this.getNextValue(ruleTokenConvert, defaultConverter)
 
     const operation = binaryOperation(operator.getName())
+
+    // debugger
+
     const answer = operation(
       scenario,
       leftArr[0],

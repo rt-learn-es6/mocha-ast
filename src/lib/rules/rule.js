@@ -46,8 +46,8 @@ export class Rule {
     return this
   }
 
-  size() {
-    return this.outcomeClauseHash.size
+  getSize() {
+    return Object.keys(this.outcomeClauseHash).length
   }
 
   /**

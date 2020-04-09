@@ -18,7 +18,7 @@ export const pevaluate = (scenario = [], subscript = -1, object = null) => {
     return scenario.indexOf(object) > -1
   }
 
-  return scenario[subscript] === object.toString()
+  return scenario[subscript] === object
 }
 
 /**

@@ -37,6 +37,8 @@ const buildParam = (scenario, spec) => {
 
   param.converterHash = tokenConverter
 
+  // debugger
+
   param.expectedOutcome = validate(scenario, param)
 
   return param
