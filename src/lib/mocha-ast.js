@@ -108,17 +108,14 @@ export const spec = (id, specDsl = emptyFn) => {
 
       const prepared = preparations.length > 0
       if (prepared) {
-        console.log('Preparing...')
         const preparation = preparations.shift()
         preparation(sandbox, ...currentScenario)
       }
 
-      console.log('Executing...')
       const execution = executions.shift()
       execution(...currentScenario)
 
       if (prepared) {
-        console.log('Restoring...')
         sandbox.restore()
       }
 
@@ -138,15 +135,11 @@ export const spec = (id, specDsl = emptyFn) => {
 }
 
 export const prepare = (prepareBody = emptyFn) => {
-  console.log('Queueing prepare...-')
   preparations.push(prepareBody)
-  // prepareBody(...currentScenario)
 }
 
 export const execute = (executeBody = emptyFn) => {
-  console.log('Queueing execution...+')
   executions.push(executeBody)
-  // executeBody(...currentScenario)
 }
 
 export const result = (execResult) => {
@@ -160,4 +153,3 @@ export const subject = (subjectBody = emptyFn) => {
   }
   return sut
 }
-

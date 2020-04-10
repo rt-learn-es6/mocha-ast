@@ -38,16 +38,18 @@ export class Recruiter {
   getPosition() {}
 
   assess() {
-    if (this.position === 'Manager') {
-      return assessManager(this.score())
+    // debugger
+
+    if (this.getPosition() === 'Manager') {
+      return assessManager(this.getScore())
     }
 
-    if (this.position === 'Senior Engineer') {
-      return assessSrEngineer(this.score())
+    if (this.getPosition() === 'Senior Engineer') {
+      return assessSrEngineer(this.getScore())
     }
 
-    if (this.position === 'Engineer') {
-      return assessEngineer(this.score())
+    if (this.getPosition() === 'Engineer') {
+      return assessEngineer(this.getScore())
     }
     return null
   }
