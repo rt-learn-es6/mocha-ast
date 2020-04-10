@@ -15,7 +15,7 @@ const validateMulti = (spec = null, ruleResult = []) => {
   let matchCount = 0
 
   for (let i = 0; i < ruleResult.length; i += 1) {
-    if (ruleResult[i]) {
+    if (ruleResult[i] === 'true') {
       matchCount += 1
       matchedOutputs.push(spec.rule.getOutcomes()[i])
     }

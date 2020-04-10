@@ -1,5 +1,3 @@
-import { stub } from 'sinon'
-
 import {
   ast,
   spec,

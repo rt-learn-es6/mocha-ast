@@ -39,7 +39,9 @@
     "test1": "mocha --require @babel/register --recursive test/unit/examples/logicChecker.spec.js",
     "test2": "mocha --require @babel/register --recursive test/unit/examples/recruiter.spec.js",
     "testDebug": "mocha --require @babel/register --inspect --debug-brk --recursive test/unit",
-    "testDebug2": "mocha --require @babel/register debug --recursive test/unit",
+    "testDebug1": "mocha --require @babel/register  --inspect --debug-brk --recursive test/unit/examples/logicChecker.spec.js",
+    "testDebug2": "mocha --require @babel/register  --inspect --debug-brk --recursive test/unit/examples/recruiter.spec.js",
+    "testDebug3": "mocha --require @babel/register debug --recursive test/unit/examples/recruiter.spec.js",
     "watch": "npm-watch"
   }
 }

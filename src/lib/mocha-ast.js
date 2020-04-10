@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import { it } from 'mocha'
+import { createSandbox } from 'sinon'
 
 import { DynamicClass } from './dynamicClass'
 
@@ -26,9 +27,15 @@ const _getCallerFile = () => {
   return callerfile
 }
 
+const emptyFn = () => {}
+
 let sutModuleOrClass
 let specsConfig
 let currentScenario
+let sut
+
+const preparations = []
+const executions = []
 
 // Due to async nature of node.js, we will store results in order and do
 // assertion in the same order. This happens automatically without relying on
@@ -58,7 +65,7 @@ export const ast = (name, specDsl) => {
  * @param  {[type]} body [description]
  * @return {[type]}      [description]
  */
-export const spec = (id, executeDsl) => {
+export const spec = (id, specDsl = emptyFn) => {
   const specConfig = specsConfig.specs[id]
 
   const specObj = {
@@ -88,13 +95,32 @@ export const spec = (id, executeDsl) => {
   }
 
   const fixtures = generateData(specObj)
+  const sandbox = createSandbox()
 
   describe(`${sutModuleOrClass}: ${specObj.description}`, () => {
     fixtures.forEach((fixture) => {
       const { scenario } = fixture
 
       currentScenario = Object.values(scenario)
-      executeDsl()
+
+      // console.log('Calling specDsl()...')
+      specDsl()
+
+      const prepared = preparations.length > 0
+      if (prepared) {
+        console.log('Preparing...')
+        const preparation = preparations.shift()
+        preparation(sandbox, ...currentScenario)
+      }
+
+      console.log('Executing...')
+      const execution = executions.shift()
+      execution(...currentScenario)
+
+      if (prepared) {
+        console.log('Restoring...')
+        sandbox.restore()
+      }
 
       let specParams = ''
       Object.keys(scenario).forEach((key) => {
@@ -111,10 +137,27 @@ export const spec = (id, executeDsl) => {
   })
 }
 
-export const execute = (executeBody = () => {}) => {
-  executeBody(...currentScenario)
+export const prepare = (prepareBody = emptyFn) => {
+  console.log('Queueing prepare...-')
+  preparations.push(prepareBody)
+  // prepareBody(...currentScenario)
+}
+
+export const execute = (executeBody = emptyFn) => {
+  console.log('Queueing execution...+')
+  executions.push(executeBody)
+  // executeBody(...currentScenario)
 }
 
 export const result = (execResult) => {
-  actuals.push(execResult.toString())
+  // actuals.push(execResult.toString())
+  actuals.push(String(execResult))
 }
+
+export const subject = (subjectBody = emptyFn) => {
+  if (sut == null) {
+    sut = subjectBody(...currentScenario)
+  }
+  return sut
+}
+

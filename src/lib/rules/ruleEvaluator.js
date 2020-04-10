@@ -36,6 +36,8 @@ const precedence = (symbolChar = '') => fromSymbol(symbolChar).getPrecedence()
  * @param string token to check for subscript.
  */
 const extractSubscript = (token = '') => {
+  // debugger
+
   const subscript = token.match(/\[(\d+)\]$/)
   return subscript == null ? -1 : parseInt(subscript[1], 10)
 }
