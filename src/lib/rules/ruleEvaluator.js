@@ -15,7 +15,7 @@ import {
 } from './logicHelper'
 
 const RE_TOKEN_BODY = /^.+(?=\[)/
-const RE_TOKENS = /([!|)(&])|([a-zA-Z\\s0-9]+\[\\d\])/
+const RE_TOKENS = /([!|)(&])|([a-zA-Z\\s0-9-]+\[\\d\])/
 
 const DEFAULT_CONVERT_HASH = {
   number: new NumberConverter(),

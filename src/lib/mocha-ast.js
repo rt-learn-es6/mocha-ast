@@ -143,7 +143,6 @@ export const execute = (executeBody = emptyFn) => {
 }
 
 export const result = (execResult) => {
-  // actuals.push(execResult.toString())
   actuals.push(String(execResult))
 }
 
