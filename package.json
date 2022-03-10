@@ -1,6 +1,6 @@
 {
   "name": "mocha-ast",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "repository": "git@github.com:rt-learn-es6/mocha-ast.git",
   "author": "Royce Remulla <royce.com@gmail.com>",
