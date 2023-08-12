@@ -33,7 +33,7 @@ const performLogicalAnd = (
   leftSubscript = -1,
   rightSubscript = -1,
   left = null,
-  right = null
+  right = null,
 ) => {
   if (FALSE === left || FALSE === right) {
     return FALSE
@@ -75,7 +75,7 @@ const performLogicalOr = (
   leftSubscript = -1,
   rightSubscript = -1,
   left = null,
-  right = null
+  right = null,
 ) => {
   if (TRUE === left || TRUE === right) {
     return TRUE

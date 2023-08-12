@@ -47,7 +47,7 @@ export const ast = (name, specDsl) => {
 
   const specConfigPath = specFile.replace(
     /(test\/.*?)(\w+\.spec)\.js/,
-    '$1ast/$2.json'
+    '$1ast/$2.json',
   )
 
   sutModuleOrClass = name
@@ -90,7 +90,7 @@ export const spec = (id, specDsl = emptyFn) => {
     specObj.converters = specConfig.variables.map(() => stringConverter)
   } else {
     specObj.converters = specConfig.converters.map(
-      (converter) => new DynamicClass(converter)
+      (converter) => new DynamicClass(converter),
     )
   }
 
