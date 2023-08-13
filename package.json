@@ -29,9 +29,6 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.0.1"
   },
-  "watch": {
-    "test": "{test,src}/**/*.{js,json}"
-  },
   "scripts": {
     "start": "babel-node src/index.js",
     "babel-version": "babel --version",
