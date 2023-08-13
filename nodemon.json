@@ -1,5 +1,4 @@
 {
-  "watch": ["src/**/*.js", "test/**/*.js"],
-  "ext": "js",
-  "exec": "npm test"
+  "watch": ["src/**/*.js", "test/**/*.js", "test/**/*.json"],
+  "exec": "yarn test"
 }
