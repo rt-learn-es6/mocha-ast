@@ -40,5 +40,8 @@
     "testDebug2": "mocha --require @babel/register  --inspect --debug-brk --recursive test/unit/examples/recruiter.spec.js",
     "testDebug3": "mocha --require @babel/register debug --recursive test/unit/examples/recruiter.spec.js",
     "watch": "npx nodemon"
+  },
+  "resolutions": {
+    "path-to-regexp": ">=8.0.0 "
   }
 }
