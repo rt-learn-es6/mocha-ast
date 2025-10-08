@@ -6,6 +6,7 @@
   "author": "Royce Remulla <royce.com@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@babel/runtime": "^7.28.4",
     "chai": "^4.2.0",
     "mocha": "^10.2.0",
     "sinon": "^15.2.0"
@@ -42,6 +43,7 @@
     "watch": "npx nodemon"
   },
   "resolutions": {
-    "path-to-regexp": ">=8.0.0 "
+    "path-to-regexp": ">=8.0.0",
+    "brace-expansion": ">=2.0.2"
   }
 }
